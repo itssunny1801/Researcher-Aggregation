@@ -1,223 +1,160 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
+import SearchBar from "@/components/ui/search-bar";
+import ResearcherCard from "@/components/ui/researcher-card";
+import { MOCK_RESEARCHERS, POPULAR_TAGS } from "@/lib/constants";
+import type { Researcher } from "@/lib/constants";
 
-export interface Professor {
-  id: number;
-  name: string;
-  initials: string;
-  college: string;
-  dept: string;
-  area: string[];
-  country: string;
-  publications: number;
-  avatarColor?: string;
-}
+export default function SearchPage() {
+  const [results, setResults] = useState<Researcher[]>(MOCK_RESEARCHERS);
+  const [searchPerformed, setSearchPerformed] = useState(false);
 
-const mockProfessors: Professor[] = [
-  {
-    id: 1,
-    name: "Dr. Aris Vance",
-    initials: "AV",
-    college: "IIT Kanpur",
-    dept: "Chemical Engineering",
-    area: ["Multicomponent Distillation", "Thermodynamics"],
-    country: "India",
-    publications: 32,
-    avatarColor: "bg-violet-100 text-violet-700",
-  },
-  {
-    id: 2,
-    name: "Prof. Sarah Jenkins",
-    initials: "SJ",
-    college: "MIT",
-    dept: "Physics",
-    area: ["Quantum Computing", "Condensed Matter"],
-    country: "United States",
-    publications: 58,
-    avatarColor: "bg-blue-100 text-blue-700",
-  },
-];
+  const handleSearch = (query: string) => {
+    setSearchPerformed(true);
+    if (!query.trim()) {
+      setResults(MOCK_RESEARCHERS);
+      return;
+    }
+    const q = query.toLowerCase();
+    const filtered = MOCK_RESEARCHERS.filter(
+      (r) =>
+        r.name.toLowerCase().includes(q) ||
+        r.department.toLowerCase().includes(q) ||
+        r.institution.toLowerCase().includes(q) ||
+        r.researchFields.some((f) => f.toLowerCase().includes(q)) ||
+        r.country.toLowerCase().includes(q)
+    );
+    setResults(filtered);
+  };
 
-const stats = [
-  { value: "125K+", label: "Researchers",   icon: "👥", bg: "bg-violet-50", iconBg: "bg-violet-100" },
-  { value: "98+",   label: "Countries",     icon: "📖", bg: "bg-green-50",  iconBg: "bg-green-100"  },
-  { value: "2.4K+", label: "Institutions",  icon: "🏛️", bg: "bg-amber-50",  iconBg: "bg-amber-100"  },
-  { value: "1.3M+", label: "Publications",  icon: "📄", bg: "bg-blue-50",   iconBg: "bg-blue-100"   },
-];
-
-const popularTags = ["Computer Science", "Engineering", "Medicine", "Physics", "Biology"];
-
-export default function HomePage() {
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50 font-sans">
-      {/* ── Hero ── */}
-      <section className="relative bg-gradient-to-br from-indigo-50 via-sky-50 to-blue-100 py-14 px-8 text-center overflow-hidden">
-        {/* Decorative circles */}
+    <div className="min-h-screen bg-academic-bg transition-colors duration-300">
+      {/* ── Hero Header ── */}
+      <section className="bg-gradient-to-br from-indigo-50 via-sky-50/50 to-blue-50 dark:from-[#0f172a] dark:via-[#1e293b] dark:to-[#0f172a] py-12 px-4 text-center relative overflow-hidden transition-colors duration-300">
         <div className="absolute inset-0 pointer-events-none">
-          <svg className="absolute left-[4%] top-1/2 -translate-y-1/2 opacity-25" width="180" height="180">
-            <circle cx="90" cy="90" r="80" fill="none" stroke="#a5b4fc" strokeWidth="1.5" />
-            <circle cx="90" cy="90" r="50" fill="none" stroke="#a5b4fc" strokeWidth="1" />
-          </svg>
-          <svg className="absolute right-[3%] top-1/3 opacity-25" width="160" height="160">
-            <circle cx="80" cy="80" r="70" fill="none" stroke="#93c5fd" strokeWidth="1.5" />
-            <circle cx="80" cy="80" r="42" fill="none" stroke="#93c5fd" strokeWidth="1" />
-          </svg>
+          <div className="absolute -left-20 top-0 w-64 h-64 bg-indigo-200/15 dark:bg-indigo-500/10 rounded-full blur-3xl" />
+          <div className="absolute -right-20 bottom-0 w-72 h-72 bg-blue-200/15 dark:bg-blue-500/10 rounded-full blur-3xl" />
         </div>
-        <h1 className="text-[2rem] font-bold text-slate-800 font-serif mb-2 relative z-10">
-          Global Researcher Directory
-        </h1>
-        <p className="text-slate-500 text-sm mb-6 relative z-10">
-          A database engine seeded by OpenAlex to search, verify, and track academic researchers.
-        </p>
-        <button className="relative z-10 inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 transition-colors text-white font-medium text-sm px-6 py-3 rounded-lg">
-          🔍 Search here
-        </button>
+
+        <div className="relative z-10 max-w-3xl mx-auto">
+          <h1 className="text-2xl md:text-3xl font-bold font-serif text-academic-primary mb-2">
+            Search Directory
+          </h1>
+          <p className="text-sm text-academic-muted mb-6">
+            Find editorial reviewers by name, institution, department, or research field
+          </p>
+        </div>
       </section>
 
-      {/* ── Search bar ── */}
-      <div className="px-8">
-        <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm -mt-px">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-3 items-center">
-            {/* Name search */}
-            <div className="relative">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">🔍</span>
-              <input
-                type="text"
-                placeholder="Search by name or keyword..."
-                className="w-full pl-8 pr-3 py-2 border border-slate-200 rounded-md text-sm text-slate-700 placeholder-slate-400 focus:outline-none focus:border-indigo-400"
-              />
-            </div>
+      {/* ── Search Bar ── */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 -mt-4 relative z-10">
+        <SearchBar onSearch={handleSearch} />
 
-            {/* Department */}
-            <div className="flex items-center gap-2 border border-slate-200 rounded-md px-3 py-2">
-              <span className="text-slate-400 text-sm">🏛️</span>
-              <select className="flex-1 bg-transparent text-sm text-slate-700 outline-none cursor-pointer">
-                <option>All Departments</option>
-                <option>Chemical Engineering</option>
-                <option>Physics</option>
-                <option>Computer Science</option>
-              </select>
-            </div>
-
-            {/* Country */}
-            <div className="flex items-center gap-2 border border-slate-200 rounded-md px-3 py-2">
-              <span className="text-slate-400 text-sm">🌐</span>
-              <select className="flex-1 bg-transparent text-sm text-slate-700 outline-none cursor-pointer">
-                <option>All Countries</option>
-                <option>India</option>
-                <option>USA</option>
-                <option>UK</option>
-              </select>
-            </div>
-
-            {/* Back to Home */}
-            <Link
-              href="/"
-              className="bg-[#1a1f36] hover:bg-[#252b47] transition-colors text-white text-sm font-medium px-4 py-2 rounded-md flex items-center justify-center gap-2"
+        {/* Popular tags */}
+        <div className="flex items-center gap-2 mt-4 flex-wrap">
+          <span className="text-xs text-academic-muted font-medium">
+            Popular:
+          </span>
+          {POPULAR_TAGS.map((tag) => (
+            <button
+              key={tag}
+              onClick={() => handleSearch(tag)}
+              className="badge badge-slate hover:bg-academic-surface-hover transition-colors cursor-pointer"
             >
-              🏠 Back to Home
-            </Link>
-          </div>
-
-          {/* Popular tags */}
-          <div className="flex items-center gap-2 mt-3 flex-wrap">
-            <span className="text-xs text-slate-500">Popular:</span>
-            {popularTags.map((tag) => (
-              <button
-                key={tag}
-                className="text-xs text-slate-600 bg-slate-100 hover:bg-slate-200 border border-slate-200 rounded-full px-3 py-0.5 transition-colors"
-              >
-                {tag}
-              </button>
-            ))}
-          </div>
+              {tag}
+            </button>
+          ))}
         </div>
       </div>
 
-      {/* ── Main content ── */}
-      <main className="flex-1 px-8 py-6">
-        {/* Section header */}
-        <div className="flex items-start justify-between mb-4">
-          <div className="flex items-center gap-2.5">
-            <div className="w-7 h-7 bg-violet-100 rounded-md flex items-center justify-center text-violet-700 text-sm">
+      {/* ── Results ── */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
+        {/* Results header */}
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 bg-violet-100 dark:bg-violet-900/30 rounded-lg flex items-center justify-center text-violet-700 dark:text-violet-300 text-sm">
               👥
             </div>
             <div>
-              <h2 className="text-[15px] font-semibold text-slate-800">Featured Researchers</h2>
-              <p className="text-xs text-slate-400 mt-0.5">Discover leading experts across various fields</p>
+              <h2 className="text-[15px] font-semibold text-academic-primary">
+                {searchPerformed ? "Search Results" : "All Researchers"}
+              </h2>
+              <p className="text-xs text-academic-muted mt-0.5">
+                {results.length} researcher{results.length !== 1 ? "s" : ""}{" "}
+                found
+              </p>
             </div>
           </div>
-          <button className="text-indigo-600 text-[13px] flex items-center gap-1 hover:underline">
-            View all researchers →
-          </button>
+          <Link
+            href="/"
+            className="text-sm text-academic-muted hover:text-academic-primary transition-colors flex items-center gap-1"
+          >
+            ← Back to Home
+          </Link>
         </div>
 
-        {/* Researcher cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-          {mockProfessors.map((prof) => (
-            <div
-              key={prof.id}
-              className="bg-white border border-slate-200 rounded-xl p-4 relative hover:shadow-md transition-shadow"
+        {/* Results grid */}
+        {results.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {results.map((researcher, i) => (
+              <div
+                key={researcher.id}
+                className="animate-fade-in opacity-0"
+                style={{ animationDelay: `${i * 80}ms` }}
+              >
+                <ResearcherCard researcher={researcher} />
+              </div>
+            ))}
+          </div>
+        ) : (
+          /* Empty state */
+          <div className="text-center py-20">
+            <div className="text-5xl mb-4">🔍</div>
+            <h3 className="text-lg font-semibold text-academic-primary mb-2">
+              No researchers found
+            </h3>
+            <p className="text-sm text-academic-muted max-w-md mx-auto mb-6">
+              Try adjusting your search terms or filters. You can also browse all
+              researchers by clearing the search.
+            </p>
+            <button
+              onClick={() => {
+                setResults(MOCK_RESEARCHERS);
+                setSearchPerformed(false);
+              }}
+              className="btn-primary px-6 py-2.5 rounded-xl text-sm"
             >
-              {/* Bookmark */}
-              <button className="absolute top-3 right-3 text-slate-300 hover:text-indigo-500 transition-colors">
-                🔖
-              </button>
+              Show All Researchers
+            </button>
+          </div>
+        )}
 
-              <div className="flex items-start gap-3">
-                {/* Avatar */}
-                <div
-                  className={`w-12 h-12 rounded-full flex items-center justify-center text-sm font-semibold flex-shrink-0 ${prof.avatarColor}`}
-                >
-                  {prof.initials}
-                </div>
-
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-semibold text-slate-800">{prof.name}</p>
-                  <p className="text-xs text-slate-500 mb-2.5">
-                    {prof.dept} • {prof.college} ({prof.country === "United States" ? "USA" : prof.country})
-                  </p>
-
-                  {/* Research tags */}
-                  <div className="flex flex-wrap gap-1.5 mb-3">
-                    {prof.area.map((tag) => (
-                      <span
-                        key={tag}
-                        className="text-[11px] text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded"
-                      >
-                        #{tag}
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* Meta */}
-                  <div className="flex items-center gap-4 text-[11px] text-slate-400">
-                    <span>📍 {prof.country}</span>
-                    <span>🏛️ {prof.college}</span>
-                    <span>📄 {prof.publications} Publications</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Stats row */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          {stats.map((s) => (
-            <div key={s.label} className="bg-white border border-slate-200 rounded-xl p-4 flex items-center gap-3">
-              <div className={`w-9 h-9 rounded-lg ${s.iconBg} flex items-center justify-center text-lg flex-shrink-0`}>
-                {s.icon}
-              </div>
-              <div>
-                <p className="text-lg font-bold text-slate-800 leading-none">{s.value}</p>
-                <p className="text-[11px] text-slate-400 mt-0.5">{s.label}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </main>
-
-      
+        {/* Pagination template */}
+        {results.length > 0 && (
+          <div className="flex items-center justify-center gap-2 mt-10">
+            <button
+              disabled
+              className="px-3 py-1.5 text-sm text-academic-muted surface-card rounded-lg opacity-50 cursor-not-allowed"
+            >
+              ← Previous
+            </button>
+            <button className="px-3 py-1.5 text-sm bg-academic-accent text-white rounded-lg font-medium">
+              1
+            </button>
+            <button className="px-3 py-1.5 text-sm text-academic-muted surface-card rounded-lg hover:bg-academic-surface-hover transition-colors">
+              2
+            </button>
+            <button className="px-3 py-1.5 text-sm text-academic-muted surface-card rounded-lg hover:bg-academic-surface-hover transition-colors">
+              3
+            </button>
+            <button className="px-3 py-1.5 text-sm text-academic-muted surface-card rounded-lg hover:bg-academic-surface-hover transition-colors">
+              Next →
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

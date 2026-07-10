@@ -140,3 +140,46 @@ async def logout():
     )
     response.delete_cookie(key="access_token", path="/")
     return response
+
+# ---------------------------------------------------------------------------
+# 5) PROFILE — save the authenticated user's profile data
+# ---------------------------------------------------------------------------
+import json
+import os
+from fastapi import Request
+
+PROFILES_DB_PATH = "profiles.json"
+
+@router.post("/profile")
+async def save_profile(request: Request, current_user: dict = Depends(get_current_user)):
+    """
+    Saves the user's profile data to a local JSON file (mock database).
+    Requires a valid access_token cookie.
+    """
+    try:
+        profile_data = await request.json()
+    except Exception:
+        raise HTTPException(status_code=400, detail="Invalid JSON payload")
+        
+    orcid_id = current_user.get("sub", "")
+    if not orcid_id:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+        
+    # Read existing DB
+    db = {}
+    if os.path.exists(PROFILES_DB_PATH):
+        try:
+            with open(PROFILES_DB_PATH, "r", encoding="utf-8") as f:
+                db = json.load(f)
+        except json.JSONDecodeError:
+            pass
+            
+    # Update DB
+    db[orcid_id] = profile_data
+    
+    # Save DB
+    with open(PROFILES_DB_PATH, "w", encoding="utf-8") as f:
+        json.dump(db, f, indent=2)
+        
+    return {"status": "success", "message": "Profile saved successfully"}
+
