@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { fetchCurrentUser, type User } from "@/lib/auth";
+import { fetchCurrentUser, getStoredToken, type User } from "@/lib/auth";
 import { DEPARTMENTS, COUNTRIES, EMPTY_PROFILE, type ProfileFormData } from "@/lib/constants";
 import OrcidButton from "@/components/ui/orcid-button";
 
@@ -61,11 +61,13 @@ export default function EditProfilePage() {
     setSaving(true);
     
     try {
+      const token = getStoredToken();
       const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:8000"}/auth/profile`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        // include credentials to send the JWT cookie
-        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
         body: JSON.stringify(formData)
       });
       
@@ -73,7 +75,6 @@ export default function EditProfilePage() {
         throw new Error("Failed to save profile");
       }
       
-      console.log("Profile saved successfully");
       router.push("/account");
     } catch (error) {
       console.error("Error saving profile:", error);

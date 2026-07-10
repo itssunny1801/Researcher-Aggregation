@@ -93,23 +93,13 @@ async def orcid_callback(code: str = None, error: str = None):
                 if given_name and family_name:
                     name = f"{given_name} {family_name}"
 
-    # --- Step C: Create a JWT and set it as an HTTP-only cookie ---
-    jwt_token = create_jwt_token(orcid_id=orcid_id, name=name)
+    # --- Step C: Create a JWT and redirect to frontend with token in URL ---
+    jwt_token = create_jwt_token(orcid_id=orcid_id, name=name, given_name=given_name, family_name=family_name)
 
-    # Redirect to the frontend /account page
-    response = RedirectResponse(
-        url=f"{settings.FRONTEND_URL}/account", status_code=302
-    )
-    response.set_cookie(
-        key="access_token",
-        value=jwt_token,
-        httponly=True,
-        secure=False,       # Set True in production with HTTPS
-        samesite="lax",
-        max_age=settings.JWT_EXPIRY_HOURS * 3600,
-        path="/",
-    )
-    return response
+    # Pass token as a URL param — frontend will store it in localStorage
+    # This solves the cross-domain cookie problem between Render and Vercel
+    redirect_url = f"{settings.FRONTEND_URL}/auth/callback?token={jwt_token}"
+    return RedirectResponse(url=redirect_url, status_code=302)
 
 
 # ---------------------------------------------------------------------------

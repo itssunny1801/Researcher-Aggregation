@@ -3,13 +3,14 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
-import { fetchCurrentUser, type User } from "@/lib/auth";
+import { fetchCurrentUser, clearStoredToken, type User } from "@/lib/auth";
 import { useTheme } from "@/lib/theme-context";
 import OrcidButton from "@/components/ui/orcid-button";
-import { BACKEND_URL } from "@/lib/constants";
+import { useRouter } from "next/navigation";
 
 export default function Navbar() {
   const pathname = usePathname();
+  const router = useRouter();
   const { theme, toggleTheme } = useTheme();
   const [user, setUser] = useState<User | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -18,6 +19,13 @@ export default function Navbar() {
   useEffect(() => {
     fetchCurrentUser().then(setUser);
   }, []);
+
+  function handleSignOut() {
+    clearStoredToken();
+    setUser(null);
+    setUserMenuOpen(false);
+    router.push("/");
+  }
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -125,9 +133,9 @@ export default function Navbar() {
                       ✏️ Edit Profile
                     </Link>
                     <hr className="my-1 border-academic-border" />
-                    <a href={`${BACKEND_URL}/auth/logout`} className="block px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors">
-                      🚪 Sign Out
-                    </a>
+                    <button onClick={handleSignOut} className="w-full text-left block px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 transition-colors">
+                      Sign Out
+                    </button>
                   </div>
                 )}
               </div>
@@ -181,9 +189,9 @@ export default function Navbar() {
                 <Link href="/profile/edit" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white hover:bg-white/10">
                   ✏️ Edit Profile
                 </Link>
-                <a href={`${BACKEND_URL}/auth/logout`} className="block px-4 py-2.5 rounded-lg text-sm font-medium text-red-400 hover:bg-red-500/10">
-                  🚪 Sign Out
-                </a>
+                <button onClick={handleSignOut} className="w-full text-left block px-4 py-2.5 rounded-lg text-sm font-medium text-red-400 hover:bg-red-500/10">
+                  Sign Out
+                </button>
               </>
             ) : (
               <div className="px-4 py-2">

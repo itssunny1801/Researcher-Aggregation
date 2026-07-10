@@ -4,11 +4,13 @@ from fastapi import Request, HTTPException, status
 from app.config import settings
 
 
-def create_jwt_token(orcid_id: str, name: str) -> str:
+def create_jwt_token(orcid_id: str, name: str, given_name: str = None, family_name: str = None) -> str:
     """Create a signed JWT containing the user's ORCID iD and name."""
     payload = {
         "sub": orcid_id,
         "name": name,
+        "given_name": given_name,
+        "family_name": family_name,
         "iat": datetime.now(timezone.utc),
         "exp": datetime.now(timezone.utc)
         + timedelta(hours=settings.JWT_EXPIRY_HOURS),
@@ -33,11 +35,18 @@ def verify_jwt_token(token: str) -> dict:
 
 
 def get_current_user(request: Request) -> dict:
-    """FastAPI dependency — extracts JWT from cookie and returns user data."""
+    """FastAPI dependency — extracts JWT from Authorization header or cookie."""
+    # First try Authorization: Bearer <token> header (used for cross-domain)
+    auth_header = request.headers.get("Authorization", "")
+    if auth_header.startswith("Bearer "):
+        token = auth_header[7:]
+        return verify_jwt_token(token)
+    
+    # Fall back to cookie (for same-domain deployments)
     token = request.cookies.get("access_token")
     if not token:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Not authenticated — no token cookie found",
+            detail="Not authenticated",
         )
     return verify_jwt_token(token)
