@@ -10,9 +10,9 @@ export default function OrcidButton({
   className = "",
 }: OrcidButtonProps) {
   const sizeClasses = {
-    sm: "px-4 py-2 text-sm gap-2",
-    md: "px-6 py-3 text-sm gap-2.5",
-    lg: "px-8 py-3.5 text-base gap-3",
+    sm: "px-4 py-2 text-sm gap-3",
+    md: "px-6 py-3 text-sm gap-3",
+    lg: "px-8 py-3.5 text-base gap-4",
   };
 
   return (
@@ -24,7 +24,7 @@ export default function OrcidButton({
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 256 256"
-        className={size === "sm" ? "w-4 h-4" : "w-5 h-5"}
+        className={`flex-shrink-0 ${size === "sm" ? "w-4 h-4" : "w-5 h-5"}`}
         fill="currentColor"
       >
         <path d="M256 128c0 70.7-57.3 128-128 128S0 198.7 0 128 57.3 0 128 0s128 57.3 128 128z" fill="#A6CE39" />

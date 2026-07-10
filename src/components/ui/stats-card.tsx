@@ -22,10 +22,9 @@ export default function StatsCard({
       style={{ animationDelay: `${delay}ms` }}
     >
       <div
-        className={`w-11 h-11 rounded-xl ${iconBg} flex items-center justify-center text-xl flex-shrink-0`}
-      >
-        {icon}
-      </div>
+        className={`w-11 h-11 rounded-xl ${iconBg} flex items-center justify-center text-xl flex-shrink-0 [&>svg]:w-6 [&>svg]:h-6`}
+        dangerouslySetInnerHTML={{ __html: icon }}
+      />
       <div>
         <p className="text-2xl font-bold text-academic-primary tracking-tight leading-none">
           {value}

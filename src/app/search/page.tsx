@@ -32,12 +32,7 @@ export default function SearchPage() {
   return (
     <div className="min-h-screen bg-academic-bg transition-colors duration-300">
       {/* ── Hero Header ── */}
-      <section className="bg-gradient-to-br from-indigo-50 via-sky-50/50 to-blue-50 dark:from-[#0f172a] dark:via-[#1e293b] dark:to-[#0f172a] py-12 px-4 text-center relative overflow-hidden transition-colors duration-300">
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute -left-20 top-0 w-64 h-64 bg-indigo-200/15 dark:bg-indigo-500/10 rounded-full blur-3xl" />
-          <div className="absolute -right-20 bottom-0 w-72 h-72 bg-blue-200/15 dark:bg-blue-500/10 rounded-full blur-3xl" />
-        </div>
-
+      <section className="bg-academic-surface border-b border-academic-border py-12 px-4 text-center relative overflow-hidden transition-colors duration-300">
         <div className="relative z-10 max-w-3xl mx-auto">
           <h1 className="text-2xl md:text-3xl font-bold font-serif text-academic-primary mb-2">
             Search Directory
@@ -49,7 +44,7 @@ export default function SearchPage() {
       </section>
 
       {/* ── Search Bar ── */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 -mt-4 relative z-10">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 mt-8 relative z-10">
         <SearchBar onSearch={handleSearch} />
 
         {/* Popular tags */}
@@ -74,8 +69,8 @@ export default function SearchPage() {
         {/* Results header */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-violet-100 dark:bg-violet-900/30 rounded-lg flex items-center justify-center text-violet-700 dark:text-violet-300 text-sm">
-              👥
+            <div className="w-8 h-8 bg-academic-surface-hover rounded-lg flex items-center justify-center text-academic-primary text-sm shadow-sm border border-academic-border-light">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
             </div>
             <div>
               <h2 className="text-[15px] font-semibold text-academic-primary">
@@ -111,7 +106,9 @@ export default function SearchPage() {
         ) : (
           /* Empty state */
           <div className="text-center py-20">
-            <div className="text-5xl mb-4">🔍</div>
+            <div className="flex justify-center mb-6">
+              <svg className="w-12 h-12 text-academic-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+            </div>
             <h3 className="text-lg font-semibold text-academic-primary mb-2">
               No researchers found
             </h3>

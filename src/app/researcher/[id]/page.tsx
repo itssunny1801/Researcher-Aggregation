@@ -85,7 +85,7 @@ export default async function ResearcherProfilePage({ params }: PageProps) {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 mt-3 badge badge-green py-1.5 px-3"
                 >
-                  <svg className="w-3.5 h-3.5" viewBox="0 0 256 256" fill="currentColor">
+                  <svg className="w-3.5 h-3.5 flex-shrink-0" viewBox="0 0 256 256" fill="currentColor">
                     <path d="M256 128c0 70.7-57.3 128-128 128S0 198.7 0 128 57.3 0 128 0s128 57.3 128 128z" fill="#A6CE39" />
                   </svg>
                   ORCID Verified
@@ -167,11 +167,11 @@ export default async function ResearcherProfilePage({ params }: PageProps) {
 
       {/* ── Claim Profile CTA ── */}
       {!researcher.orcidId && (
-        <div className="mt-8 bg-gradient-to-r from-academic-primary to-slate-800 dark:from-slate-800 dark:to-slate-900 rounded-2xl p-8 text-center border border-academic-border">
-          <h3 className="text-lg font-bold text-white mb-2">
+        <div className="mt-8 bg-academic-primary rounded-2xl p-8 text-center shadow-3d shadow-inner-3d">
+          <h3 className="text-lg font-bold text-academic-bg mb-2">
             Is this your profile?
           </h3>
-          <p className="text-sm text-white/70 mb-6 max-w-md mx-auto">
+          <p className="text-sm text-academic-bg/70 mb-6 max-w-md mx-auto">
             Claim this profile by signing in with your ORCID iD. Update your
             information and get verified.
           </p>

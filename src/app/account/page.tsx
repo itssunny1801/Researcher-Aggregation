@@ -96,13 +96,13 @@ export default function AccountPage() {
       {/* ── Profile Card ── */}
       <div className="surface-card rounded-2xl shadow-sm overflow-hidden">
         {/* Accent header bar */}
-        <div className="h-2 bg-gradient-to-r from-academic-accent via-academic-orcid to-emerald-400" />
+        <div className="h-2 bg-academic-accent" />
 
         <div className="p-6 md:p-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* ── Left: Avatar & Basic Info ── */}
             <div className="flex flex-col items-center text-center md:border-r md:border-academic-border md:pr-8">
-              <div className="w-28 h-28 bg-gradient-to-br from-indigo-100 to-violet-100 dark:from-indigo-900/40 dark:to-violet-900/40 rounded-full flex items-center justify-center text-indigo-700 dark:text-indigo-300 font-bold text-3xl tracking-wider shadow-inner mb-4">
+              <div className="w-28 h-28 bg-academic-surface-hover rounded-full flex items-center justify-center text-academic-primary font-bold text-3xl tracking-wider shadow-inner mb-4">
                 {initials}
               </div>
               <h2 className="text-xl font-bold text-academic-primary">
@@ -119,7 +119,7 @@ export default function AccountPage() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 mt-3 text-xs text-academic-orcid/90 hover:text-academic-orcid transition-colors font-medium"
               >
-                <svg className="w-3.5 h-3.5" viewBox="0 0 256 256" fill="currentColor">
+                <svg className="w-3.5 h-3.5 flex-shrink-0" viewBox="0 0 256 256" fill="currentColor">
                   <path d="M256 128c0 70.7-57.3 128-128 128S0 198.7 0 128 57.3 0 128 0s128 57.3 128 128z" fill="#A6CE39" />
                 </svg>
                 View ORCID Profile ↗

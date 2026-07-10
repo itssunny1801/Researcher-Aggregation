@@ -3,19 +3,21 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  /* ── Academic Identity Palette ── */
-  --color-academic-bg: #f8fafc;
-  --color-academic-primary: #0f172a;
-  --color-academic-orcid: #a6ce39;
+  /* ── Authentic Minimalist Palette (2-3 Core Colors) ── */
+  --color-academic-bg: #fafafa;
+  --color-academic-primary: #111827; /* Deep Slate / Near Black */
+  --color-academic-orcid: #a6ce39; /* Kept strictly for ORCID branding */
 
-  /* Extended palette */
+  /* Surfaces & Borders (Monochrome scale) */
   --color-academic-surface: #ffffff;
-  --color-academic-surface-hover: #f1f5f9;
-  --color-academic-border: #e2e8f0;
-  --color-academic-border-light: #f1f5f9;
-  --color-academic-muted: #64748b;
-  --color-academic-accent: #6366f1;
-  --color-academic-accent-light: #eef2ff;
+  --color-academic-surface-hover: #f3f4f6;
+  --color-academic-border: #e5e7eb;
+  --color-academic-border-light: #f3f4f6;
+  --color-academic-muted: #6b7280;
+  
+  /* Accent (Single sophisticated dark accent instead of vibrant colors) */
+  --color-academic-accent: #1f2937;
+  --color-academic-accent-light: #f3f4f6;
 
   /* Fonts */
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
@@ -144,7 +146,14 @@
 
   /* Gradient text */
   .gradient-text {
-    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
+    background: linear-gradient(135deg, var(--color-academic-primary) 0%, var(--color-academic-muted) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .dark .gradient-text {
+    background: linear-gradient(135deg, #f8fafc 0%, #cbd5e1 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -176,14 +185,13 @@
 
   /* Primary button */
   .btn-primary {
-    background: linear-gradient(135deg, #6366f1, #4f46e5);
-    color: #ffffff;
+    background: var(--color-academic-primary);
+    color: var(--color-academic-bg);
     font-weight: 600;
     transition: all 0.2s ease;
   }
   .btn-primary:hover {
-    background: linear-gradient(135deg, #4f46e5, #4338ca);
-    box-shadow: 0 4px 16px rgba(99, 102, 241, 0.4);
+    opacity: 0.9;
     transform: translateY(-1px);
   }
 
@@ -251,7 +259,7 @@
   /* Dark-aware card */
   .surface-card {
     background: var(--color-academic-surface);
-    border: 1px solid var(--color-academic-border);
+    border: 1px solid transparent;
   }
 
   /* ── 3D Elements & Deep Shadows ── */

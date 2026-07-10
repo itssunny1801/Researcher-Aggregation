@@ -39,7 +39,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="w-full glass-dark sticky top-0 z-50 shadow-lg shadow-black/5">
+    <nav className="w-full bg-[#1e293b] sticky top-0 z-50 shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
@@ -47,7 +47,7 @@ export default function Navbar() {
             href="/"
             className="flex items-center gap-2.5 hover:opacity-90 transition-opacity"
           >
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-academic-accent to-indigo-600 flex items-center justify-center text-white text-sm font-bold shadow-md">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-academic-accent to-indigo-600 flex items-center justify-center text-white text-sm font-bold shadow-md flex-shrink-0">
               R
             </div>
             <span className="font-bold text-lg text-white tracking-tight hidden sm:block">
@@ -101,7 +101,7 @@ export default function Navbar() {
                   }}
                   className="flex items-center gap-2.5 px-3 py-1.5 rounded-lg hover:bg-white/10 transition-colors"
                 >
-                  <div className="w-8 h-8 rounded-full bg-academic-orcid/20 flex items-center justify-center text-academic-orcid text-xs font-bold ring-2 ring-academic-orcid/30">
+                  <div className="w-8 h-8 flex-shrink-0 rounded-full bg-academic-orcid/20 flex items-center justify-center text-academic-orcid text-xs font-bold ring-2 ring-academic-orcid/30">
                     {user.name?.split(" ").map((n) => n[0]).join("").slice(-2) || "?"}
                   </div>
                   <span className="text-sm text-white font-medium max-w-[120px] truncate">

@@ -8,13 +8,10 @@ export default function HomePage() {
   return (
     <div className="min-h-screen">
       {/* ══ HERO ══ */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-slate-50 via-indigo-50/50 to-blue-50 dark:from-[#0b0f1a] dark:via-[#0d1326] dark:to-[#0f172a] py-20 md:py-28">
-        {/* Decorative blurs */}
+      <section className="relative overflow-hidden bg-academic-bg py-20 md:py-28">
+        {/* Decorative pattern */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div className="absolute -left-20 top-1/4 w-72 h-72 bg-indigo-300/20 dark:bg-indigo-500/10 rounded-full blur-3xl" />
-          <div className="absolute -right-20 top-1/3 w-80 h-80 bg-blue-300/20 dark:bg-blue-500/10 rounded-full blur-3xl" />
-          <div className="absolute left-1/2 -translate-x-1/2 bottom-0 w-[600px] h-[600px] bg-academic-orcid/5 rounded-full blur-3xl" />
-          <svg className="absolute inset-0 w-full h-full opacity-[0.03] dark:opacity-[0.02]">
+          <svg className="absolute inset-0 w-full h-full opacity-[0.04] dark:opacity-[0.02]">
             <defs>
               <pattern id="grid" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
                 <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" strokeWidth="1" />
@@ -45,7 +42,8 @@ export default function HomePage() {
 
           <div className="animate-fade-in opacity-0 delay-400 flex flex-col sm:flex-row items-center justify-center gap-3">
             <Link href="/search" className="btn-primary btn-3d shadow-3d px-8 py-3.5 rounded-xl text-base flex items-center gap-2">
-              🔍 Search Directory
+              <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+              Search Directory
             </Link>
             <OrcidButton size="lg" />
           </div>
@@ -82,12 +80,15 @@ export default function HomePage() {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {HOW_IT_WORKS.map((item, i) => (
-            <div key={item.step} className="animate-slide-up opacity-0 relative surface-card rounded-2xl p-7 text-center card-hover group"
+            <div key={item.step} className="animate-slide-up opacity-0 relative surface-card rounded-2xl p-7 text-center card-hover group shadow-3d"
               style={{ animationDelay: `${i * 150 + 300}ms` }}>
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-academic-accent text-white text-xs font-bold px-3 py-0.5 rounded-full">
                 Step {item.step}
               </div>
-              <div className="text-4xl mb-4 mt-2 group-hover:animate-float">{item.icon}</div>
+              <div 
+                className="w-10 h-10 mx-auto text-academic-muted mb-4 [&>svg]:w-full [&>svg]:h-full" 
+                dangerouslySetInnerHTML={{ __html: item.icon }} 
+              />
               <h3 className="text-lg font-bold text-academic-primary mb-2">{item.title}</h3>
               <p className="text-sm text-academic-muted leading-relaxed">{item.description}</p>
             </div>
