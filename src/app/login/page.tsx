@@ -21,12 +21,14 @@ export default function LoginPage() {
           <div className="surface-card rounded-3xl card-3d p-8 md:p-10">
             {/* Icon */}
             <div className="text-center mb-8">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-academic-accent text-academic-bg mb-4 shadow-lg">
-                <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" />
-                </svg>
+              <div className="flex items-center justify-center gap-4 mb-2">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-academic-accent text-academic-bg shadow-lg flex-shrink-0">
+                  <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" />
+                  </svg>
+                </div>
+                <TypingEffect as="h1" text="Welcome Back" className="text-2xl font-bold font-serif text-academic-primary" showCursor={false} />
               </div>
-              <TypingEffect as="h1" text="Welcome Back" className="text-2xl font-bold font-serif text-academic-primary mb-2" showCursor={false} />
               <p className="text-sm text-academic-muted leading-relaxed">
                 Sign in with your ORCID iD to access your researcher profile and
                 manage your academic information.
