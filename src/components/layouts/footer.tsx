@@ -2,16 +2,16 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="w-full bg-academic-bg border-t border-academic-border mt-auto transition-colors duration-300">
+    <footer className="w-full bg-academic-bg mt-auto transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand */}
           <div className="md:col-span-1">
             <div className="flex items-center gap-2 mb-3">
-              <div className="w-7 h-7 rounded-md bg-gradient-to-br from-academic-accent to-indigo-600 flex items-center justify-center text-white text-xs font-bold">
+              <div className="w-7 h-7 rounded-md bg-academic-accent flex items-center justify-center text-academic-bg text-xs font-bold">
                 R
               </div>
-              <span className="font-bold text-academic-primary text-lg tracking-tight">
+              <span className="font-bold text-academic-primary text-base tracking-normal font-display">
                 ResearchHub
               </span>
             </div>
@@ -62,7 +62,7 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <a href="https://github.com/Aditya-Singh0001/Researcher-Aggregation" target="_blank" rel="noopener noreferrer" className="text-sm text-academic-muted hover:text-academic-accent transition-colors">
+                <a href="https://github.com/itssunny1801/Researcher-Aggregation" target="_blank" rel="noopener noreferrer" className="text-sm text-academic-muted hover:text-academic-accent transition-colors">
                   GitHub Repository ↗
                 </a>
               </li>
@@ -88,7 +88,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="border-t border-academic-border mt-10 pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div className="mt-10 pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-xs text-academic-muted">
             © {new Date().getFullYear()} ResearchHub. All rights reserved.
           </p>

@@ -34,7 +34,14 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     const next = theme === "light" ? "dark" : "light";
     setTheme(next);
     localStorage.setItem("theme", next);
+    
+    // Force a buttery smooth global transition by adding a temporary class
+    document.documentElement.classList.add("theme-transition");
     document.documentElement.classList.toggle("dark", next === "dark");
+    
+    setTimeout(() => {
+      document.documentElement.classList.remove("theme-transition");
+    }, 500);
   };
 
   // Prevent flash of wrong theme

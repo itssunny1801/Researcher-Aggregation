@@ -1,8 +1,38 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import "./globals.css";
 import Navbar from "@/components/layouts/navbar";
 import Footer from "@/components/layouts/footer";
 import { ThemeProvider } from "@/lib/theme-context";
+import PageTransition from "@/components/ui/page-transition";
+import InteractiveParticles from "@/components/ui/interactive-particles";
+
+import { Space_Grotesk, Silkscreen, JetBrains_Mono, Fraunces } from "next/font/google";
+
+const spaceGrotesk = Space_Grotesk({ 
+  subsets: ["latin"], 
+  variable: "--font-space",
+  display: "swap" 
+});
+
+const pixelFont = Silkscreen({ 
+  weight: ["400", "700"],
+  subsets: ["latin"], 
+  variable: "--font-pixel",
+  display: "swap" 
+});
+
+const jetbrains = JetBrains_Mono({ 
+  subsets: ["latin"], 
+  variable: "--font-mono",
+  display: "swap" 
+});
+
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  variable: "--font-fraunces",
+  display: "swap"
+});
 
 export const metadata: Metadata = {
   title: {
@@ -19,20 +49,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className="scroll-smooth">
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700&display=swap"
-          rel="stylesheet"
-        />
         {/* Prevent flash of wrong theme */}
-        <script
+        <Script
+          id="theme-script"
+          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
@@ -47,10 +69,13 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-screen flex flex-col antialiased bg-academic-bg text-academic-primary transition-colors duration-300">
+      <body className={`${spaceGrotesk.variable} ${pixelFont.variable} ${jetbrains.variable} ${fraunces.variable} font-sans min-h-screen flex flex-col antialiased bg-academic-bg text-academic-primary transition-colors duration-300`}>
         <ThemeProvider>
+          <InteractiveParticles />
           <Navbar />
-          <main className="grow">{children}</main>
+          <main className="grow">
+            <PageTransition>{children}</PageTransition>
+          </main>
           <Footer />
         </ThemeProvider>
       </body>

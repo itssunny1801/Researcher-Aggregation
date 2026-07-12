@@ -47,37 +47,39 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="w-full bg-[#1e293b] sticky top-0 z-50 shadow-md">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+    <nav className="w-full bg-academic-bg relative z-50 transition-colors duration-300">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
         <div className="flex justify-between items-center h-16">
-          {/* Logo */}
-          <Link
-            href="/"
-            className="flex items-center gap-2.5 hover:opacity-90 transition-opacity"
-          >
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-academic-accent to-indigo-600 flex items-center justify-center text-white text-sm font-bold shadow-md flex-shrink-0">
-              R
-            </div>
-            <span className="font-bold text-lg text-white tracking-tight hidden sm:block">
-              ResearchHub
-            </span>
-          </Link>
+          <div className="flex items-center gap-8">
+            {/* Logo */}
+            <Link
+              href="/"
+              className="flex items-center gap-2.5 hover:opacity-90 transition-opacity"
+            >
+              <div className="w-8 h-8 rounded-lg bg-academic-accent flex items-center justify-center text-academic-bg text-sm font-bold shadow-md flex-shrink-0">
+                R
+              </div>
+              <span className="font-bold text-base text-academic-primary tracking-normal hidden sm:block font-display">
+                ResearchHub
+              </span>
+            </Link>
 
-          {/* Desktop Nav */}
-          <div className="hidden md:flex items-center gap-1">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                  isActive(link.href)
-                    ? "bg-white/15 text-white"
-                    : "text-white/70 hover:text-white hover:bg-white/10"
-                }`}
-              >
-                {link.label}
-              </Link>
-            ))}
+            {/* Desktop Nav */}
+            <div className="hidden md:flex items-center gap-1">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                    isActive(link.href)
+                      ? "bg-academic-accent/10 text-academic-accent"
+                      : "text-academic-muted hover:text-academic-primary hover:bg-academic-surface-hover"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
           </div>
 
           {/* Desktop Right */}
@@ -85,7 +87,7 @@ export default function Navbar() {
             {/* Theme Toggle */}
             <button
               onClick={toggleTheme}
-              className="p-2 rounded-lg hover:bg-white/10 transition-colors text-white/70 hover:text-white"
+              className="p-2 rounded-lg hover:bg-academic-surface-hover transition-colors text-academic-muted hover:text-academic-primary"
               aria-label="Toggle theme"
             >
               {theme === "dark" ? (
@@ -107,15 +109,15 @@ export default function Navbar() {
                     e.stopPropagation();
                     setUserMenuOpen(!userMenuOpen);
                   }}
-                  className="flex items-center gap-2.5 px-3 py-1.5 rounded-lg hover:bg-white/10 transition-colors"
+                  className="flex items-center gap-2.5 px-3 py-1.5 rounded-lg hover:bg-academic-surface-hover transition-colors"
                 >
-                  <div className="w-8 h-8 flex-shrink-0 rounded-full bg-academic-orcid/20 flex items-center justify-center text-academic-orcid text-xs font-bold ring-2 ring-academic-orcid/30">
+                  <div className="w-8 h-8 flex-shrink-0 rounded-full bg-academic-orcid/10 flex items-center justify-center text-academic-orcid text-xs font-bold ring-2 ring-academic-orcid/20">
                     {user.name?.split(" ").map((n) => n[0]).join("").slice(-2) || "?"}
                   </div>
-                  <span className="text-sm text-white font-medium max-w-[120px] truncate">
+                  <span className="text-sm text-academic-primary font-medium max-w-[120px] truncate">
                     {user.name}
                   </span>
-                  <svg className={`w-4 h-4 text-white/60 transition-transform ${userMenuOpen ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className={`w-4 h-4 text-academic-muted transition-transform ${userMenuOpen ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
                 </button>
@@ -127,13 +129,13 @@ export default function Navbar() {
                       <p className="text-sm font-semibold text-academic-primary truncate">{user.name}</p>
                     </div>
                     <Link href="/account" className="block px-4 py-2.5 text-sm text-academic-primary hover:bg-academic-surface-hover transition-colors" onClick={() => setUserMenuOpen(false)}>
-                      👤 My Profile
+                      My Profile
                     </Link>
                     <Link href="/profile/edit" className="block px-4 py-2.5 text-sm text-academic-primary hover:bg-academic-surface-hover transition-colors" onClick={() => setUserMenuOpen(false)}>
-                      ✏️ Edit Profile
+                      Edit Profile
                     </Link>
                     <hr className="my-1 border-academic-border" />
-                    <button onClick={handleSignOut} className="w-full text-left block px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 transition-colors">
+                    <button onClick={handleSignOut} className="w-full text-left block px-4 py-2.5 text-sm text-red-500 hover:bg-red-500/10 transition-colors">
                       Sign Out
                     </button>
                   </div>
@@ -146,7 +148,7 @@ export default function Navbar() {
 
           {/* Mobile Right */}
           <div className="flex md:hidden items-center gap-1">
-            <button onClick={toggleTheme} className="p-2 rounded-lg hover:bg-white/10 transition-colors text-white/70" aria-label="Toggle theme">
+            <button onClick={toggleTheme} className="p-2 rounded-lg hover:bg-academic-surface-hover transition-colors text-academic-muted hover:text-academic-primary" aria-label="Toggle theme">
               {theme === "dark" ? (
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
@@ -157,8 +159,8 @@ export default function Navbar() {
                 </svg>
               )}
             </button>
-            <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="p-2 rounded-lg hover:bg-white/10 transition-colors">
-              <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="p-2 rounded-lg hover:bg-academic-surface-hover transition-colors text-academic-primary">
+              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 {mobileMenuOpen ? (
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 ) : (
@@ -172,24 +174,24 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t border-white/10 animate-fade-in">
+        <div className="md:hidden border-t border-academic-border animate-fade-in bg-academic-surface">
           <div className="px-4 py-4 space-y-1">
             {navLinks.map((link) => (
               <Link key={link.href} href={link.href} onClick={() => setMobileMenuOpen(false)}
-                className={`block px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${isActive(link.href) ? "bg-white/15 text-white" : "text-white/70 hover:text-white hover:bg-white/10"}`}>
+                className={`block px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${isActive(link.href) ? "bg-academic-accent/10 text-academic-accent" : "text-academic-muted hover:text-academic-primary hover:bg-academic-surface-hover"}`}>
                 {link.label}
               </Link>
             ))}
-            <hr className="border-white/10 my-2" />
+            <hr className="border-academic-border my-2" />
             {user ? (
               <>
-                <Link href="/account" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white hover:bg-white/10">
-                  👤 My Profile
+                <Link href="/account" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-2.5 rounded-lg text-sm font-medium text-academic-muted hover:text-academic-primary hover:bg-academic-surface-hover">
+                  My Profile
                 </Link>
-                <Link href="/profile/edit" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-2.5 rounded-lg text-sm font-medium text-white/70 hover:text-white hover:bg-white/10">
-                  ✏️ Edit Profile
+                <Link href="/profile/edit" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-2.5 rounded-lg text-sm font-medium text-academic-muted hover:text-academic-primary hover:bg-academic-surface-hover">
+                  Edit Profile
                 </Link>
-                <button onClick={handleSignOut} className="w-full text-left block px-4 py-2.5 rounded-lg text-sm font-medium text-red-400 hover:bg-red-500/10">
+                <button onClick={handleSignOut} className="w-full text-left block px-4 py-2.5 rounded-lg text-sm font-medium text-red-500 hover:bg-red-500/10">
                   Sign Out
                 </button>
               </>

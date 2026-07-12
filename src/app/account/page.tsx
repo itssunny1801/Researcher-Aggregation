@@ -5,6 +5,9 @@ import { fetchCurrentUser, clearStoredToken, type User } from "@/lib/auth";
 import OrcidButton from "@/components/ui/orcid-button";
 import { ProfileSkeleton } from "@/components/ui/loading-skeleton";
 import Link from "next/link";
+import ScrollReveal from "@/components/ui/scroll-reveal";
+import TypingEffect from "@/components/ui/typing-effect";
+import Ambient3D from "@/components/ui/ambient-3d";
 import { useRouter } from "next/navigation";
 
 export default function AccountPage() {
@@ -23,28 +26,29 @@ export default function AccountPage() {
   // Not logged in — show clean sign-in prompt
   if (!user) {
     return (
-      <div className="min-h-[80vh] flex items-center justify-center px-4">
-        <div className="w-full max-w-md animate-fade-in">
-          <div className="surface-card rounded-3xl p-10 shadow-3d text-center">
-            <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-academic-primary flex items-center justify-center shadow-lg">
-              <svg className="w-7 h-7 text-academic-bg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-              </svg>
+      <div className="relative overflow-hidden min-h-[80vh] flex items-center justify-center px-4">
+        <Ambient3D variant="a" />
+        <div className="relative w-full max-w-md">
+          <ScrollReveal>
+            <div className="surface-card rounded-3xl p-10 shadow-3d text-center">
+              <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-academic-primary flex items-center justify-center shadow-lg">
+                <svg className="w-7 h-7 text-academic-bg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+              </div>
+              <TypingEffect as="h1" text="Welcome to ResearchHub" className="text-2xl font-bold font-serif text-academic-primary mb-3" showCursor={false} />
+              <p className="text-sm text-academic-muted mb-8 leading-relaxed">
+                Sign in with your ORCID iD to access and manage your researcher profile.
+              </p>
+              <OrcidButton size="lg" className="w-full justify-center" />
+              <p className="text-xs text-academic-muted mt-6">
+                Don&apos;t have an ORCID?{" "}
+                <a href="https://orcid.org/register" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-academic-primary transition-colors">
+                  Register for free ↗
+                </a>
+              </p>
             </div>
-            <h1 className="text-2xl font-bold font-serif text-academic-primary mb-3">
-              Welcome to ResearchHub
-            </h1>
-            <p className="text-sm text-academic-muted mb-8 leading-relaxed">
-              Sign in with your ORCID iD to access and manage your researcher profile.
-            </p>
-            <OrcidButton size="lg" className="w-full justify-center" />
-            <p className="text-xs text-academic-muted mt-6">
-              Don&apos;t have an ORCID?{" "}
-              <a href="https://orcid.org/register" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-academic-primary transition-colors">
-                Register for free ↗
-              </a>
-            </p>
-          </div>
+          </ScrollReveal>
         </div>
       </div>
     );
@@ -65,23 +69,27 @@ export default function AccountPage() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-10 animate-fade-in">
+    <div className="relative max-w-4xl mx-auto px-4 py-10">
+      <Ambient3D variant="b" />
 
       {/* ── ORCID Verified Banner ── */}
-      <div className="flex items-center justify-between bg-academic-orcid/8 border border-academic-orcid/20 rounded-2xl px-5 py-3.5 mb-8">
-        <div className="flex items-center gap-3">
-          <span className="w-2.5 h-2.5 bg-academic-orcid rounded-full flex-shrink-0" />
-          <div>
-            <p className="text-sm font-semibold text-academic-primary leading-none">Connected via ORCID iD</p>
-            <p className="text-xs text-academic-muted font-mono mt-0.5">{user.orcid_id}</p>
+      <ScrollReveal direction="down">
+        <div className="flex items-center justify-between bg-academic-orcid/8 border border-academic-orcid/20 rounded-2xl px-5 py-3.5 mb-8">
+          <div className="flex items-center gap-3">
+            <span className="w-2.5 h-2.5 bg-academic-orcid rounded-full flex-shrink-0" />
+            <div>
+              <p className="text-sm font-semibold text-academic-primary leading-none">Connected via ORCID iD</p>
+              <p className="text-xs text-academic-muted font-mono mt-0.5">{user.orcid_id}</p>
+            </div>
           </div>
+          <span className="text-[10px] font-bold uppercase tracking-wider text-academic-orcid bg-academic-orcid/10 px-2.5 py-1 rounded-full">
+            Verified
+          </span>
         </div>
-        <span className="text-[10px] font-bold uppercase tracking-wider text-academic-orcid bg-academic-orcid/10 px-2.5 py-1 rounded-full">
-          Verified
-        </span>
-      </div>
+      </ScrollReveal>
 
       {/* ── Profile Card ── */}
+      <ScrollReveal delay={150}>
       <div className="surface-card rounded-2xl shadow-3d overflow-hidden mb-6">
         {/* Top accent bar */}
         <div className="h-1.5 bg-academic-primary" />
@@ -152,8 +160,11 @@ export default function AccountPage() {
             <EmptyField label="Country" hint="e.g. India, United States" />
           </div>
         </div>
+      </div>
+      </ScrollReveal>
 
-        {/* Bio */}
+      {/* Bio */}
+      <ScrollReveal delay={250}>
         <div className="surface-card rounded-2xl shadow-3d p-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-sm font-bold uppercase tracking-wider text-academic-muted">Biography</h2>
@@ -165,49 +176,55 @@ export default function AccountPage() {
             </p>
           </div>
         </div>
-      </div>
+      </ScrollReveal>
 
       {/* Research Fields */}
-      <div className="surface-card rounded-2xl shadow-3d p-6 mb-6">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-sm font-bold uppercase tracking-wider text-academic-muted">Research Fields</h2>
-          <Link href="/profile/edit" className="text-xs text-academic-muted hover:text-academic-primary transition-colors">Edit ↗</Link>
+      <ScrollReveal delay={350}>
+        <div className="surface-card rounded-2xl shadow-3d p-6 mt-6 mb-6">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-sm font-bold uppercase tracking-wider text-academic-muted">Research Fields</h2>
+            <Link href="/profile/edit" className="text-xs text-academic-muted hover:text-academic-primary transition-colors">Edit ↗</Link>
+          </div>
+          <div className="h-14 flex items-center justify-center border-2 border-dashed border-academic-border rounded-xl">
+            <p className="text-xs text-academic-muted">No research fields added yet. Edit your profile to add them.</p>
+          </div>
         </div>
-        <div className="h-14 flex items-center justify-center border-2 border-dashed border-academic-border rounded-xl">
-          <p className="text-xs text-academic-muted">No research fields added yet. Edit your profile to add them.</p>
-        </div>
-      </div>
+      </ScrollReveal>
 
       {/* Publications */}
-      <div className="surface-card rounded-2xl shadow-3d p-6">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-sm font-bold uppercase tracking-wider text-academic-muted">Publications</h2>
-          <span className="text-xs text-academic-muted">Via OpenAlex · coming soon</span>
+      <ScrollReveal delay={450}>
+        <div className="surface-card rounded-2xl shadow-3d p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-sm font-bold uppercase tracking-wider text-academic-muted">Publications</h2>
+            <span className="text-xs text-academic-muted">Via OpenAlex · coming soon</span>
+          </div>
+          <div className="h-24 flex flex-col items-center justify-center border-2 border-dashed border-academic-border rounded-xl gap-2">
+            <svg className="w-6 h-6 text-academic-border" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+            </svg>
+            <p className="text-xs text-academic-muted">Publications will be auto-fetched from OpenAlex once available</p>
+          </div>
         </div>
-        <div className="h-24 flex flex-col items-center justify-center border-2 border-dashed border-academic-border rounded-xl gap-2">
-          <svg className="w-6 h-6 text-academic-border" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-          </svg>
-          <p className="text-xs text-academic-muted">Publications will be auto-fetched from OpenAlex once available</p>
-        </div>
-      </div>
+      </ScrollReveal>
 
       {/* Complete Profile CTA */}
-      <div className="mt-6 bg-academic-primary rounded-2xl p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-3d">
-        <div>
-          <h3 className="text-base font-bold text-academic-bg mb-1">Complete your profile</h3>
-          <p className="text-xs text-academic-bg/60">Add your institution, department, bio and research fields to appear in the directory.</p>
+      <ScrollReveal delay={550}>
+        <div className="mt-6 bg-academic-primary rounded-2xl p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-3d">
+          <div>
+            <h3 className="text-base font-bold text-academic-bg mb-1">Complete your profile</h3>
+            <p className="text-xs text-academic-bg/60">Add your institution, department, bio and research fields to appear in the directory.</p>
+          </div>
+          <Link
+            href="/profile/edit"
+            className="flex-shrink-0 bg-academic-bg text-academic-primary px-5 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 hover:opacity-90 transition-opacity"
+          >
+            <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+            </svg>
+            Edit Profile
+          </Link>
         </div>
-        <Link
-          href="/profile/edit"
-          className="flex-shrink-0 bg-academic-bg text-academic-primary px-5 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 hover:opacity-90 transition-opacity"
-        >
-          <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-          </svg>
-          Edit Profile
-        </Link>
-      </div>
+      </ScrollReveal>
     </div>
   );
 }

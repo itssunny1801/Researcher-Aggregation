@@ -6,6 +6,10 @@ import { fetchCurrentUser, getStoredToken, type User } from "@/lib/auth";
 import { DEPARTMENTS, COUNTRIES, EMPTY_PROFILE, type ProfileFormData } from "@/lib/constants";
 import OrcidButton from "@/components/ui/orcid-button";
 
+import ScrollReveal from "@/components/ui/scroll-reveal";
+import TypingEffect from "@/components/ui/typing-effect";
+import Ambient3D from "@/components/ui/ambient-3d";
+
 export default function EditProfilePage() {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
@@ -90,33 +94,38 @@ export default function EditProfilePage() {
 
   if (!user) {
     return (
-      <div className="min-h-[70vh] flex items-center justify-center px-4">
-        <div className="text-center max-w-md animate-fade-in">
-          <div className="text-5xl mb-4">🔒</div>
-          <h1 className="text-2xl font-bold font-serif text-academic-primary mb-3">
-            Authentication Required
-          </h1>
-          <p className="text-sm text-academic-muted mb-6">
-            Sign in with your ORCID iD to edit your researcher profile.
-          </p>
-          <OrcidButton size="lg" />
-        </div>
+      <div className="relative overflow-hidden min-h-[70vh] flex items-center justify-center px-4">
+        <Ambient3D variant="a" />
+        <ScrollReveal>
+          <div className="text-center max-w-md">
+            <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-academic-accent/10 text-academic-accent flex items-center justify-center">
+              <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+            </div>
+            <TypingEffect as="h1" text="Authentication Required" className="text-2xl font-bold font-serif text-academic-primary mb-3" showCursor={false} />
+            <p className="text-sm text-academic-muted mb-6 mt-2">
+              Sign in with your ORCID iD to edit your researcher profile.
+            </p>
+            <OrcidButton size="lg" />
+          </div>
+        </ScrollReveal>
       </div>
     );
   }
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-8 animate-fade-in">
-      <div className="mb-8">
-        <h1 className="text-2xl md:text-3xl font-bold font-serif text-academic-primary mb-2">
-          Edit Profile
-        </h1>
-        <p className="text-sm text-academic-muted">
-          Update your public researcher information. Data is saved securely to our platform.
-        </p>
-      </div>
+    <div className="relative max-w-3xl mx-auto px-4 py-8">
+      <Ambient3D variant="c" />
+      <ScrollReveal direction="down">
+        <div className="mb-8">
+          <TypingEffect as="h1" text="Edit Profile" className="text-2xl md:text-3xl font-bold font-serif text-academic-primary mb-2" showCursor={false} />
+          <p className="text-sm text-academic-muted">
+            Update your public researcher information. Data is saved securely to our platform.
+          </p>
+        </div>
+      </ScrollReveal>
 
-      <form onSubmit={handleSubmit} className="surface-card rounded-2xl shadow-3d shadow-inner-3d p-6 md:p-8 space-y-8">
+      <ScrollReveal direction="up" delay={150}>
+        <form onSubmit={handleSubmit} className="surface-card rounded-2xl shadow-3d shadow-inner-3d p-6 md:p-8 space-y-8">
         {/* Basic Info */}
         <div className="space-y-4">
           <h3 className="text-lg font-bold text-academic-primary border-b border-academic-border pb-2">
@@ -232,12 +241,12 @@ export default function EditProfilePage() {
           <div>
             <div className="flex flex-wrap gap-2 mb-3">
               {formData.researchFields.map((field) => (
-                <span key={field} className="badge badge-indigo shadow-sm py-1.5 px-3 flex items-center gap-1">
+                <span key={field} className="badge badge-accent shadow-sm py-1.5 px-3 flex items-center gap-1">
                   {field}
                   <button
                     type="button"
                     onClick={() => removeField(field)}
-                    className="text-indigo-500 hover:text-indigo-700 ml-1"
+                    className="text-academic-accent hover:opacity-80 ml-1"
                   >
                     ×
                   </button>
@@ -298,6 +307,7 @@ export default function EditProfilePage() {
           </button>
         </div>
       </form>
+      </ScrollReveal>
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { MOCK_RESEARCHERS } from "@/lib/constants";
 import OrcidButton from "@/components/ui/orcid-button";
+import Ambient3D from "@/components/ui/ambient-3d";
 import type { Metadata } from "next";
 
 interface PageProps {
@@ -44,7 +45,9 @@ export default async function ResearcherProfilePage({ params }: PageProps) {
   const initials = researcher.initials;
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8 animate-fade-in">
+    <div className="relative overflow-hidden">
+      <Ambient3D variant="b" />
+      <div className="relative z-10 max-w-4xl mx-auto px-4 py-8 animate-fade-in">
       {/* Back link */}
       <Link
         href="/search"
@@ -56,7 +59,7 @@ export default async function ResearcherProfilePage({ params }: PageProps) {
       {/* ── Profile Card ── */}
       <div className="surface-card rounded-2xl shadow-sm overflow-hidden">
         {/* Accent bar */}
-        <div className="h-2 bg-gradient-to-r from-academic-accent via-indigo-400 to-blue-400" />
+        <div className="h-2 bg-academic-accent" />
 
         <div className="p-6 md:p-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -134,7 +137,7 @@ export default async function ResearcherProfilePage({ params }: PageProps) {
                 </label>
                 <div className="flex flex-wrap gap-2">
                   {researcher.researchFields.map((field) => (
-                    <span key={field} className="badge badge-indigo py-1 px-3">
+                    <span key={field} className="badge badge-accent py-1 px-3">
                       {field}
                     </span>
                   ))}
@@ -178,6 +181,7 @@ export default async function ResearcherProfilePage({ params }: PageProps) {
           <OrcidButton size="md" />
         </div>
       )}
+      </div>
     </div>
   );
 }
